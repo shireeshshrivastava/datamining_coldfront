@@ -5,11 +5,12 @@ plotForecastResult <- function(x, title=NULL) {
   plot(x$date, x$actual, type="l", col="grey", main=title,
        xlab="Time (Years)", ylab="Rainfall Amount",
        xlim=range(x$date), ylim=c(min.val, max.val))
+  
   grid()
-  lines(x$date, x$trend, col="yellowgreen")
-  lines(x$date, x$pred, col="green")
+  lines(x$date, x$trend, col="green")
+  lines(x$date, x$pred, col="red")
   lines(x$date, x$lower, col="blue")
   lines(x$date, x$upper, col="blue")
-  legend("topleft", col=c("grey", "yellowgreen", "green", "blue"), lty=1,
+  legend("topleft", col=c("grey", "green", "red", "blue"), lty=1,
          c("Actual", "Trend", "Forecast", "Lower/Upper Bound"))
 }

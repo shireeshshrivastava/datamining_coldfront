@@ -3,7 +3,7 @@ library(forecast)
 
 ## Forecast with STL model
 forecastStl <- function(x, n.ahead=90){
-  myTs <- ts(x$rainfall_amount, start=1, frequency=365)
+  myTs <- ts(x$diff_deg, start=1, frequency=365)
   fit.stl <- stl(myTs, s.window=365)
   sts <- fit.stl$time.series
   trend <- sts[,"trend"]
@@ -12,7 +12,7 @@ forecastStl <- function(x, n.ahead=90){
   pred <- fore$mean
   upper <- fore$upper
   lower <- fore$lower
-  output <- data.frame(actual = c(x$rainfall_amount, rep(NA, n.ahead)),
+  output <- data.frame(actual = c(x$diff_deg, rep(NA, n.ahead)),
                        trend = c(trend, rep(NA, n.ahead)),
                        #pred = c(trend, pred),
                        pred = c(rep(NA, nrow(x)), pred),
@@ -26,7 +26,7 @@ forecastStl <- function(x, n.ahead=90){
 
 ## Forecast with ARIMA model
 forecastArima <- function(x, n.ahead=90){
-  myTs <- ts(x$rainfall_amount, start=1, frequency=365)
+  myTs <- ts(x$diff_deg, start=1, frequency=365)
   fit.arima <- arima(myTs, order=c(0,0,1))
   fore <- forecast(fit.arima, h=n.ahead)
   plot(fore)
@@ -34,7 +34,7 @@ forecastArima <- function(x, n.ahead=90){
   lower <- fore$lower[,'95%']
   trend <- as.numeric(fore$fitted)
   pred <- as.numeric(fore$mean)
-  output <- data.frame(actual = c(x$rainfall_amount, rep(NA, n.ahead)),
+  output <- data.frame(actual = c(x$diff_deg, rep(NA, n.ahead)),
                        trend = c(trend, rep(NA, n.ahead)),
                        #pred = c(trend, pred),
                        pred = c(rep(NA, nrow(x)), pred),
