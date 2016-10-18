@@ -2,7 +2,7 @@
 library(forecast)
 
 ## Forecast with STL model
-forecastStl <- function(x, n.ahead=90){
+forecastStl <- function(x, n.ahead=250){
   myTs <- ts(x$diff_deg, start=1, frequency=365)
   fit.stl <- stl(myTs, s.window=365)
   sts <- fit.stl$time.series
@@ -25,7 +25,7 @@ forecastStl <- function(x, n.ahead=90){
 
 
 ## Forecast with ARIMA model
-forecastArima <- function(x, n.ahead=90){
+forecastArima <- function(x, n.ahead=250){
   myTs <- ts(x$diff_deg, start=1, frequency=365)
   fit.arima <- arima(myTs, order=c(0,0,1))
   fore <- forecast(fit.arima, h=n.ahead)
